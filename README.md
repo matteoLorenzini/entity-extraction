@@ -9,14 +9,13 @@ event detection. This project is the extraction step for
 Requires Python 3.12 or later:
 
 ```bash
-pip install .
+uv sync
 ```
 
-For CPU-only PyTorch, install its CPU build before installing this project:
+For CPU-only PyTorch, include the PyTorch CPU package index:
 
 ```bash
-pip install torch --index-url https://download.pytorch.org/whl/cpu
-pip install .
+uv sync --extra-index-url https://download.pytorch.org/whl/cpu
 ```
 
 The default model, `urchade/gliner_multi-v2.1`, is downloaded from Hugging Face
@@ -26,7 +25,7 @@ on first use and cached locally. Use `--gliner-model` to change it and
 ## Extract
 
 ```bash
-python extract_entities.py --file /path/to/Person.xlsx --fields Biography Role Contribution
+uv run python extract_entities.py --file /path/to/Person.xlsx --fields Biography Role Contribution
 ```
 
 The default outputs are `output_data/Person_entities.json` and
@@ -66,16 +65,16 @@ remain compatible when either project changes.
 
 ```bash
 # In source-data-transformer/script:
-python download_drive_excel.py --file /path/to/Person.xlsx \
+uv run python download_drive_excel.py --file /path/to/Person.xlsx \
   --stylesheet-map xslt/person.xsl --entities /path/to/Person_entities.json
-python xml_to_rdf.py --mapping mappings/e21_timeline.yaml \
+uv run python xml_to_rdf.py --mapping mappings/e21_timeline.yaml \
   --xml /path/to/Person_entities_timeline.xml --out person_timeline.ttl
 ```
 
 ## Tests
 
 ```bash
-python -m unittest discover -s tests
+uv run python -m unittest discover -s tests
 ```
 
 Tests use a fake model and do not download model weights.
@@ -83,5 +82,5 @@ To also test the JSON and timeline outputs against a local transformer checkout,
 install that project's dependencies and run:
 
 ```bash
-TRANSFORMER_REPO=/path/to/source-data-transformer python -m unittest discover -s tests
+TRANSFORMER_REPO=/path/to/source-data-transformer uv run python -m unittest discover -s tests
 ```
