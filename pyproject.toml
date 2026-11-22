@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "entity-extraction"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "gliner==0.2.30",
+    "openpyxl==3.1.5",
+    "protobuf==7.36.2",
+    "sentencepiece==0.2.3",
+]
+
+[tool.setuptools]
+packages = ["entity_extraction"]
+py-modules = ["extract_entities"]
